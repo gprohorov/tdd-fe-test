@@ -21,8 +21,7 @@ public class TestingViaSelenium {
     private static final String BASE_URL = "http://taqc-opencart.epizy.com/";
     private static final Long  IMPLICITY_WAIT_SECONDS = 10L;
     private static final Long  ONE_SECOND_DELAY = 1000L;
-    private static final int DELAY = 1;
-
+    private static final int DELAY = 5;
     private WebDriver driver = new ChromeDriver();
 
     private void delayDemo(int seconds) {
