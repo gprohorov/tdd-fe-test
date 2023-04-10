@@ -63,7 +63,7 @@ public class TestingLayout {
     @AfterMethod
     public void afterMethod(ITestResult result){
         delayDemo(DELAY);
-        //createPageSource();
+        createPageSource();
         if (!result.isSuccess()) {
             System.out.println(" ERROR, name = " + result.getName());
             createScreenShot();
@@ -78,18 +78,18 @@ public class TestingLayout {
             throw new RuntimeException(e);
             }
     }
-//
-//    private void createPageSource(){
-//        String pageSource = driver.getPageSource();
-//        byte[] pageSourceInBytes = pageSource.getBytes();
-//        Path path = Paths.get("./sources/" + LocalDateTime.now() + "_src.html");
-//        try{
-//            Files.write(path, pageSourceInBytes, StandardOpenOption.CREATE);
-//        }
-//        catch (IOException e) {
-//            throw new RuntimeException(e);
-//}
-//    }
+
+    private void createPageSource(){
+        String pageSource = driver.getPageSource();
+        byte[] pageSourceInBytes = pageSource.getBytes();
+        Path path = Paths.get("./sources/" + LocalDateTime.now() + "_src.html");
+        try{
+            Files.write(path, pageSourceInBytes, StandardOpenOption.CREATE);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+}
+    }
 
     @Test
     public void exploreSelenium(){
