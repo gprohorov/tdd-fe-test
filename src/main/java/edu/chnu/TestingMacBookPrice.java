@@ -11,25 +11,29 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.FileAttribute;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
-public class TestingLayout {
+public class TestingMacBookPrice {
 
     private static final String BASE_URL = "http://taqc-opencart.epizy.com/";
     private static final Long  IMPLICITY_WAIT_SECONDS = 10L;
     private static final Long  ONE_SECOND_DELAY = 1000L;
-    private static final int DELAY = 1;
+    private static final int DELAY = 2;
     private WebDriver driver;
 
     private void delayDemo(int seconds) {
@@ -69,10 +73,11 @@ public class TestingLayout {
     @AfterMethod
     public void afterMethod(ITestResult result){
         delayDemo(DELAY);
+
         if (!result.isSuccess()) {
             System.out.println(" ERROR, name = " + result.getName());
            createScreenShot();
-            createPageSource();
+           createPageSource();
         }
     }
 
@@ -99,13 +104,31 @@ public class TestingLayout {
     }
 
     @Test
-    public void exploreSelenium(){
-        driver.findElement(By.cssSelector("a[title='My Account']")).click();
+    public void searchElementsByCss(){
+        driver.findElement(By.cssSelector("button.btn.btn-link.dropdown-toggle")).click();
         delayDemo(DELAY);
-        driver.findElement(By.linkText("Register")).click();
+        driver.findElement(By.cssSelector("button[name='USD']")).click();
         delayDemo(DELAY);
-        driver.findElement(By.name("firstname")).sendKeys("Freddie", Keys.TAB,"Mercury", Keys.ENTER);
-        delayDemo(5);
+        driver.findElement(By.cssSelector("#search > input")).click();
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("#search > input")).clear();
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("#search > input")).sendKeys("mac");
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("button.btn.btn-default.btn-lg")).click();
+        delayDemo(DELAY);
+        List<WebElement> containers = driver.findElements(By.cssSelector("div.product-layout.product-grid"));
+        WebElement container = containers.get(1);
+        WebElement we = containers.stream()
+                .filter(el -> el.findElement(By.cssSelector("h4 > a")).getText().equals("MacBook"))
+                .findAny().orElseThrow();
+
+
+        WebElement element = container.findElement(By.cssSelector("p.price"));
+        Actions action = new Actions(driver);
+        action.moveToElement(element);
+
+        Assert.assertTrue(element.getText().contains("$602.00"));
 
     }
 
