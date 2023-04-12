@@ -8,13 +8,19 @@ package edu.chnu;
 */
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;import org.openqa.selenium.*;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.ITestResult;import org.testng.annotations.*;
+import org.testng.ITestResult;
+import org.testng.annotations.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;import java.nio.file.Path;
-import java.nio.file.Paths;import java.nio.file.StandardOpenOption;import java.time.Duration;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.FileAttribute;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 
@@ -23,7 +29,7 @@ public class TestingLayout {
     private static final String BASE_URL = "http://taqc-opencart.epizy.com/";
     private static final Long  IMPLICITY_WAIT_SECONDS = 10L;
     private static final Long  ONE_SECOND_DELAY = 1000L;
-    private static final int DELAY = 4;
+    private static final int DELAY = 1;
     private WebDriver driver;
 
     private void delayDemo(int seconds) {
@@ -66,7 +72,7 @@ public class TestingLayout {
         createPageSource();
         if (!result.isSuccess()) {
             System.out.println(" ERROR, name = " + result.getName());
-            createScreenShot();
+         //   createScreenShot();
         }
     }
 
@@ -82,8 +88,9 @@ public class TestingLayout {
     private void createPageSource(){
         String pageSource = driver.getPageSource();
         byte[] pageSourceInBytes = pageSource.getBytes();
-        Path path = Paths.get("./sources/" + LocalDateTime.now() + "_src.html");
+        Path path = Paths.get("./sources/" + LocalDateTime.now() +"_src.html");
         try{
+            Files.createDirectories(Paths.get("./sources/"));
             Files.write(path, pageSourceInBytes, StandardOpenOption.CREATE);
         }
         catch (IOException e) {
