@@ -127,7 +127,7 @@ public class TestingMacBookPrice {
         WebElement element = container.findElement(By.cssSelector("p.price"));
         Actions action = new Actions(driver);
         action.moveToElement(element);
-
+        delayDemo(8);
         Assert.assertTrue(element.getText().contains("$602.00"));
 
     }
