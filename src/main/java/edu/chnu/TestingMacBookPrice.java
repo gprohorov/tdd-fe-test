@@ -131,6 +131,35 @@ public class TestingMacBookPrice {
         Assert.assertTrue(element.getText().contains("$602.00"));
 
     }
+    @Test
+    public void searchElementsByXpath(){
+        //driver.findElement(By.cssSelector("button.btn.btn-link.dropdown-toggle")).click();
+        driver.findElement(By.xpath("//button[@class='btn btn-link dropdown-toggle']")).click();
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("button[name='USD']")).click();
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("#search > input")).click();
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("#search > input")).clear();
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("#search > input")).sendKeys("mac");
+        delayDemo(DELAY);
+        driver.findElement(By.cssSelector("button.btn.btn-default.btn-lg")).click();
+        delayDemo(DELAY);
+        List<WebElement> containers = driver.findElements(By.cssSelector("div.product-layout.product-grid"));
+        WebElement container = containers.get(1);
+        WebElement we = containers.stream()
+                .filter(el -> el.findElement(By.cssSelector("h4 > a")).getText().equals("MacBook"))
+                .findAny().orElseThrow();
+
+
+        WebElement element = container.findElement(By.cssSelector("p.price"));
+        Actions action = new Actions(driver);
+        action.moveToElement(element);
+        delayDemo(8);
+        Assert.assertTrue(element.getText().contains("$602.00"));
+
+    }
 
 
 }
