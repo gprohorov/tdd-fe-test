@@ -136,28 +136,29 @@ public class TestingMacBookPrice {
         //driver.findElement(By.cssSelector("button.btn.btn-link.dropdown-toggle")).click();
         driver.findElement(By.xpath("//button[@class='btn btn-link dropdown-toggle']")).click();
         delayDemo(DELAY);
-        driver.findElement(By.cssSelector("button[name='USD']")).click();
+       // driver.findElement(By.cssSelector("button[name='USD']")).click();
+        driver.findElement(By.xpath("//button[@name='USD']")).click();
         delayDemo(DELAY);
-        driver.findElement(By.cssSelector("#search > input")).click();
+        //driver.findElement(By.cssSelector("#search > input")).click();
+        driver.findElement(By.xpath("//input[@name='search']")).click();
         delayDemo(DELAY);
-        driver.findElement(By.cssSelector("#search > input")).clear();
+        //driver.findElement(By.cssSelector("#search > input")).clear();
+        driver.findElement(By.xpath("//input[@placeholder='Search']")).clear();
         delayDemo(DELAY);
-        driver.findElement(By.cssSelector("#search > input")).sendKeys("mac");
+      //  driver.findElement(By.cssSelector("#search > input")).sendKeys("mac");
+        driver.findElement(By.xpath("//input[@name='search']")).sendKeys("mac");
         delayDemo(DELAY);
-        driver.findElement(By.cssSelector("button.btn.btn-default.btn-lg")).click();
+      // driver.findElement(By.cssSelector("button.btn.btn-default.btn-lg")).click();
+        driver.findElement(By.xpath("//button[@class='btn btn-default btn-lg']")).click();
         delayDemo(DELAY);
-        List<WebElement> containers = driver.findElements(By.cssSelector("div.product-layout.product-grid"));
-        WebElement container = containers.get(1);
-        WebElement we = containers.stream()
-                .filter(el -> el.findElement(By.cssSelector("h4 > a")).getText().equals("MacBook"))
-                .findAny().orElseThrow();
 
+     //   List<WebElement> containers = driver.findElements(By.cssSelector("div.product-layout.product-grid"));
+    //    WebElement container = containers.get(1);
+     //   WebElement element = container.findElement(By.cssSelector("p.price"));
+        WebElement price = driver.findElement(By.xpath("//a[text()='MacBook']/../following-sibling::p[@class='price']"));
 
-        WebElement element = container.findElement(By.cssSelector("p.price"));
-        Actions action = new Actions(driver);
-        action.moveToElement(element);
         delayDemo(8);
-        Assert.assertTrue(element.getText().contains("$602.00"));
+        Assert.assertTrue(price.getText().contains("$602.00"));
 
     }
 
